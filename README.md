@@ -52,7 +52,7 @@
 
 ###
 
-<p align="left"> This is a React Native Expo app dedicated to simulating an elegant e-commerce experience centered around the world of chandeliers. This endeavor serves as a hands-on exploration of React Native and its associated technologies and libraries.
+<p align="left"> This is a React Native Expo app in production.
 
 ###
 

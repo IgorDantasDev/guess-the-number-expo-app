@@ -61,7 +61,7 @@
 First clone the project
 
 ```bash
-  git clone  git@github.com:IgorDantasDev/guess-the-number-expo-app.git
+  git clone git@github.com:IgorDantasDev/guess-the-number-expo-app.git
 ```
 
 Enter the project directory
@@ -94,4 +94,3 @@ Start the application
 .
 └─ README.md
 ```
-

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+
 import {Alert} from 'react-native';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
 
 import {
   ButtonContainer,
@@ -17,6 +19,12 @@ import {Text} from '~/components/Text';
 
 export const InitialScreen: React.FC = () => {
   /**
+   * Hooks
+   */
+
+  const {navigate} = useNavigation<NavigationProp<StackParamList>>();
+
+  /**
    * States
    */
 
@@ -32,12 +40,13 @@ export const InitialScreen: React.FC = () => {
 
   const handleConfirmButton = () => {
     const chosenNumber = parseInt(enteredNumber);
-    if (isNaN(chosenNumber) || chosenNumber < 0 || chosenNumber > 99) {
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
       return Alert.alert(
         'Número inválido!',
         'O número precisa ser um número entre 0 e 99',
       );
     } else {
+      navigate('GameScreen', {enteredNumber: chosenNumber});
     }
   };
 
@@ -68,6 +77,7 @@ export const InitialScreen: React.FC = () => {
           </ButtonContainer>
         </ButtonsRowContainer>
       </InputContainer>
+      <Separator height={10} />
     </Container>
   );
 };

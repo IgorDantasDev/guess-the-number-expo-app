@@ -17,7 +17,7 @@ import {Text} from '~/components/Text';
 import {Button} from '~/components/Button';
 import {Separator} from '~/components/Separator';
 import {StatCard} from '~/components/StatCard';
-import {BACKGROUND_COLOR, INPUT_CONTAINER} from '~/constants/colors';
+import {INPUT_CONTAINER} from '~/constants/colors';
 
 let minBoundary = 1;
 let maxBoundary = 100;
@@ -26,6 +26,7 @@ export const GameScreen = () => {
   /**
    * Hooks
    */
+
   const {dispatch} = useNavigation<StackNavigatorProp>();
   const {enteredNumber} = useRoute<GameScreenRouteProp>().params;
 

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+
 import {Alert} from 'react-native';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
 
 import {
   ButtonContainer,
@@ -14,11 +16,10 @@ import {Button} from '~/components/Button';
 import {Separator} from '~/components/Separator';
 import {Icon} from '~/components/Icon';
 import {Text} from '~/components/Text';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
 
 export const InitialScreen: React.FC = () => {
   /**
-   * Constants
+   * Hooks
    */
 
   const {navigate} = useNavigation<NavigationProp<StackParamList>>();

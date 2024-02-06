@@ -1,23 +1,22 @@
 import React, {useEffect, useState} from 'react';
 
+import {useRoute} from '@react-navigation/native';
+import {Alert, FlatList} from 'react-native';
+
 import {
   ButtonContainer,
   ButtonsRowContainer,
   Container,
   ContentGuess,
   Header,
-  MagiciansGuessesContainer,
   NumberContainer,
-  RowContainer,
 } from './styles';
+import {Direction} from './types';
+import {GameScreenRouteProp} from '~/@types/routes/StackNavigator';
 
 import {Text} from '~/components/Text';
 import {Button} from '~/components/Button';
 import {Separator} from '~/components/Separator';
-import {useRoute} from '@react-navigation/native';
-import {Alert, FlatList} from 'react-native';
-import {GameScreenRouteProp} from '~/@types/routes/StackNavigator';
-import {Direction} from './types';
 import {StatCard} from '~/components/StatCard';
 
 let minBoundary = 1;

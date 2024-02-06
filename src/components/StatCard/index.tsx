@@ -1,11 +1,10 @@
 import React from 'react';
+
 import {Container, RowContainer} from './styles';
+import {StatCardProps} from './types';
 
 import {Text} from '../Text';
 import {ordinalSuffix} from '~/utils/ordinalSuffix';
-import {StatCardProps} from './types';
-
-// import { Container } from './styles';
 
 export const StatCard = ({
   index,

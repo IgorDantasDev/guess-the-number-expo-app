@@ -1,6 +1,8 @@
 import React from 'react';
+
 import {Container} from './styles';
 import {ButtonProps} from './types';
+
 import {Text} from '../Text';
 
 export const Button = ({label, onPress, disabled, ...rest}: ButtonProps) => {

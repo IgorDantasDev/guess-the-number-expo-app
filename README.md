@@ -52,7 +52,7 @@
 
 ###
 
-<p align="left"> This is a React Native Expo app in production.
+<p align="left"> Embark on a captivating journey with the Magician's Number Guessing Game! This thrilling app challenges you to think of a number and allows the virtual magician to predict it. Start by entering your chosen number, and let the magical journey unfold.
 
 ###
 
@@ -88,9 +88,12 @@ Start the application
 ```plaintext
 .
 ├─ src                   # Source files
-|  ├─ assets             # Contains Js bundles assets. e.g: icons, images
+|  ├─ @types             # Contains all global definitions of types and interfaces
+|  ├─ assets             # Contains Js bundles assets. e.g: icons
 |  ├─ components         # Contains all global react components
-|  ├─ screens             # Contains application screens
+|  ├─ constants          # Constants files as icons and color themes
+|  ├─ screens            # Contains application screens
+|  ├─ utils              # Contains util files
 .
 └─ README.md
 ```

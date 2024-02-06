@@ -1,6 +1,7 @@
 import React from 'react';
+
 import {Container} from './styles';
 
-export const GameOverScreen: React.FC = () => {
+export const GameOverScreen = () => {
   return <Container />;
 };

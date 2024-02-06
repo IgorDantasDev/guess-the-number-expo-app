@@ -1,21 +1,24 @@
 import {RFValue} from 'react-native-responsive-fontsize';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
+import {BACKGROUND_COLOR, INPUT_CONTAINER} from '~/constants/colors';
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
   padding: ${RFValue(16)}px;
-  background-color: #ccc;
+  background-color: ${BACKGROUND_COLOR};
 `;
 
 export const Header = styled.View`
+  padding: ${RFValue(16)}px;
   justify-content: center;
   align-items: center;
+  border-width: ${RFValue(2)}px;
 `;
 
 export const InputContainer = styled.View`
   justify-content: center;
-  background-color: #8b2635;
+  background-color: ${INPUT_CONTAINER};
   border-radius: ${RFValue(8)}px;
   padding: ${RFValue(16)}px;
   align-items: center;

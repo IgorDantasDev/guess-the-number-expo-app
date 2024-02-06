@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {Alert} from 'react-native';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {
+  useNavigation,
+  NavigationProp,
+  useIsFocused,
+} from '@react-navigation/native';
 
 import {
   ButtonContainer,
@@ -23,7 +27,7 @@ export const InitialScreen: React.FC = () => {
    */
 
   const {navigate} = useNavigation<NavigationProp<StackParamList>>();
-
+  const isFocused = useIsFocused();
   /**
    * States
    */
@@ -38,7 +42,7 @@ export const InitialScreen: React.FC = () => {
     setEnteredNumber('');
   };
 
-  const handleConfirmButton = () => {
+  const handleConfirmButton = useCallback(() => {
     const chosenNumber = parseInt(enteredNumber);
     if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
       return Alert.alert(
@@ -48,7 +52,16 @@ export const InitialScreen: React.FC = () => {
     } else {
       navigate('GameScreen', {enteredNumber: chosenNumber});
     }
-  };
+  }, [enteredNumber, navigate]);
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    if (isFocused) {
+      setEnteredNumber('');
+    }
+  }, [isFocused]);
 
   return (
     <Container>

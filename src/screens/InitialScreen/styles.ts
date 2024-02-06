@@ -33,6 +33,7 @@ export const Input = styled.TextInput`
   text-align: center;
   border-bottom-width: ${RFValue(2)}px;
   border-bottom-color: #d3efbd;
+  color: ${BACKGROUND_COLOR};
 `;
 
 export const ButtonsRowContainer = styled.View`

@@ -32,6 +32,7 @@ export const GameScreen = () => {
   /**
    * States
    */
+
   const [currentGuess, setCurrentGuess] = useState(0);
   const [finishedGame, setFinishedGame] = useState(false);
   const [magiciansGuesses, setMagiciansGuesses] = useState<number[]>([]);
@@ -39,6 +40,7 @@ export const GameScreen = () => {
   /**
    * Callbacks
    */
+
   const generateRandomNumber = (min, max, exclude) => {
     const randomNumber = Math.floor(Math.random() * (max - min)) + min;
     if (randomNumber === exclude) {

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
-import {useRoute} from '@react-navigation/native';
+import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
 import {Alert, FlatList} from 'react-native';
 
 import {
@@ -11,13 +11,13 @@ import {
   Header,
   NumberContainer,
 } from './styles';
-import {Direction} from './types';
-import {GameScreenRouteProp} from '~/@types/routes/StackNavigator';
+import {Direction, GenerateRandomNumberPayload} from './types';
 
 import {Text} from '~/components/Text';
 import {Button} from '~/components/Button';
 import {Separator} from '~/components/Separator';
 import {StatCard} from '~/components/StatCard';
+import {BACKGROUND_COLOR, INPUT_CONTAINER} from '~/constants/colors';
 
 let minBoundary = 1;
 let maxBoundary = 100;
@@ -26,7 +26,7 @@ export const GameScreen = () => {
   /**
    * Hooks
    */
-
+  const {dispatch} = useNavigation<StackNavigatorProp>();
   const {enteredNumber} = useRoute<GameScreenRouteProp>().params;
 
   /**
@@ -41,36 +41,46 @@ export const GameScreen = () => {
    * Callbacks
    */
 
-  const generateRandomNumber = (min, max, exclude) => {
-    const randomNumber = Math.floor(Math.random() * (max - min)) + min;
-    if (randomNumber === exclude) {
-      return generateRandomNumber(min, max, exclude);
-    } else {
-      return randomNumber;
-    }
-  };
-
-  const handleNextGuess = (direction: Direction) => {
-    if (finishedGame) return;
-
-    if (direction === 'lower') {
-      if (currentGuess < enteredNumber) {
-        return Alert.alert('WE KNOW YOU LYING');
+  const generateRandomNumber = useCallback(
+    ({min, max, exclude}: GenerateRandomNumberPayload) => {
+      const randomNumber = Math.floor(Math.random() * (max - min)) + min;
+      if (randomNumber === exclude) {
+        return generateRandomNumber({min, max, exclude});
+      } else {
+        return randomNumber;
       }
-      maxBoundary = currentGuess;
-    } else {
-      if (currentGuess > enteredNumber) {
-        return Alert.alert('WE KNOW YOU LYING');
+    },
+    [],
+  );
+
+  const handleNextGuess = useCallback(
+    (direction: Direction) => {
+      if (finishedGame) return;
+
+      if (direction === 'lower') {
+        if (currentGuess < enteredNumber) {
+          return Alert.alert('WE KNOW YOU LYING');
+        }
+        maxBoundary = currentGuess;
+      } else {
+        if (currentGuess > enteredNumber) {
+          return Alert.alert('WE KNOW YOU LYING');
+        }
+        minBoundary = currentGuess + 1;
       }
-      minBoundary = currentGuess + 1;
-    }
-    const newRandomNumber = generateRandomNumber(
-      minBoundary,
-      maxBoundary,
-      currentGuess,
-    );
-    setMagiciansGuesses(oldState => [...oldState, currentGuess]);
-    setCurrentGuess(newRandomNumber);
+      const newRandomNumber = generateRandomNumber({
+        min: minBoundary,
+        max: maxBoundary,
+        exclude: currentGuess,
+      });
+      setMagiciansGuesses(oldState => [...oldState, currentGuess]);
+      setCurrentGuess(newRandomNumber);
+    },
+    [finishedGame, currentGuess, generateRandomNumber, enteredNumber],
+  );
+
+  const handleStartNewGame = () => {
+    dispatch(StackActions.popToTop());
   };
 
   /**
@@ -78,11 +88,11 @@ export const GameScreen = () => {
    */
 
   useEffect(() => {
-    const initialGuess = generateRandomNumber(
-      minBoundary,
-      maxBoundary,
-      enteredNumber,
-    );
+    const initialGuess = generateRandomNumber({
+      min: minBoundary,
+      max: maxBoundary,
+      exclude: enteredNumber,
+    });
     setCurrentGuess(initialGuess);
   }, []);
 
@@ -116,17 +126,21 @@ export const GameScreen = () => {
       <ButtonsRowContainer>
         <ButtonContainer>
           <Button
+            bgColor={INPUT_CONTAINER}
             disabled={finishedGame}
             onPress={() => handleNextGuess('lower')}
             label="-"
+            textColor="#fff"
           />
         </ButtonContainer>
         <Separator width={10} />
         <ButtonContainer>
           <Button
+            bgColor={INPUT_CONTAINER}
             disabled={finishedGame}
             onPress={() => handleNextGuess('greater')}
             label="+"
+            textColor="#fff"
           />
         </ButtonContainer>
       </ButtonsRowContainer>
@@ -148,6 +162,13 @@ export const GameScreen = () => {
                 isRightGuess={item === enteredNumber}
               />
             )}
+          />
+          <Separator height={10} />
+          <Button
+            onPress={handleStartNewGame}
+            textColor="#fff"
+            bgColor={INPUT_CONTAINER}
+            label="Start new game!"
           />
         </>
       ) : null}

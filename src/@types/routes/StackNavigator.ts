@@ -7,6 +7,11 @@ declare global {
     GameScreen: {enteredNumber: number};
     GameOverScreen: undefined;
   };
-}
 
-export type GameScreenRouteProp = RouteProp<StackParamList, 'GameScreen'>;
+  export type StackNavigatorProp = StackNavigationProp<
+    StackParamList,
+    'InitialScreen'
+  >;
+
+  export type GameScreenRouteProp = RouteProp<StackParamList, 'GameScreen'>;
+}

@@ -28,6 +28,7 @@ export const InitialScreen: React.FC = () => {
 
   const {navigate} = useNavigation<NavigationProp<StackParamList>>();
   const isFocused = useIsFocused();
+
   /**
    * States
    */
@@ -57,6 +58,7 @@ export const InitialScreen: React.FC = () => {
   /**
    * Effects
    */
+
   useEffect(() => {
     if (isFocused) {
       setEnteredNumber('');

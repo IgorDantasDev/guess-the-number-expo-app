@@ -1,6 +1,8 @@
+import styled from 'styled-components/native';
+
 import {RFValue} from 'react-native-responsive-fontsize';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import styled from 'styled-components/native';
+
 import {BACKGROUND_COLOR, INPUT_CONTAINER} from '~/constants/colors';
 
 export const Container = styled(SafeAreaView)`

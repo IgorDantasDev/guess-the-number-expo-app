@@ -32,9 +32,6 @@ export const InitialScreen: React.FC = () => {
   /**
    * Callbacks
    */
-  const goToGameScreen = () => {
-    navigate('GameScreen');
-  };
 
   const handleResetButton = () => {
     setEnteredNumber('');
@@ -42,7 +39,7 @@ export const InitialScreen: React.FC = () => {
 
   const handleConfirmButton = () => {
     const chosenNumber = parseInt(enteredNumber);
-    if (isNaN(chosenNumber) || chosenNumber < 0 || chosenNumber > 99) {
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
       return Alert.alert(
         'Número inválido!',
         'O número precisa ser um número entre 0 e 99',

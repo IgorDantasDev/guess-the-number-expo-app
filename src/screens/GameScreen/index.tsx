@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   ButtonContainer,
@@ -6,21 +6,36 @@ import {
   Container,
   ContentGuess,
   Header,
+  MagiciansGuessesContainer,
   NumberContainer,
+  RowContainer,
 } from './styles';
 
 import {Text} from '~/components/Text';
 import {Button} from '~/components/Button';
 import {Separator} from '~/components/Separator';
-import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
+import {Alert, FlatList} from 'react-native';
+import {GameScreenRouteProp} from '~/@types/routes/StackNavigator';
+import {Direction} from './types';
+import {StatCard} from '~/components/StatCard';
+
+let minBoundary = 1;
+let maxBoundary = 100;
 
 export const GameScreen = () => {
   /**
    * Hooks
    */
 
-  const {enteredNumber} =
-    useRoute<RouteProp<StackParamList, 'GameScreen'>>().params;
+  const {enteredNumber} = useRoute<GameScreenRouteProp>().params;
+
+  /**
+   * States
+   */
+  const [currentGuess, setCurrentGuess] = useState(0);
+  const [finishedGame, setFinishedGame] = useState(false);
+  const [magiciansGuesses, setMagiciansGuesses] = useState<number[]>([]);
 
   /**
    * Callbacks
@@ -34,15 +49,52 @@ export const GameScreen = () => {
     }
   };
 
-  /**
-   * Constants
-   */
-  const initialGuess = generateRandomNumber(1, 100, enteredNumber);
+  const handleNextGuess = (direction: Direction) => {
+    if (finishedGame) return;
+
+    if (direction === 'lower') {
+      if (currentGuess < enteredNumber) {
+        return Alert.alert('WE KNOW YOU LYING');
+      }
+      maxBoundary = currentGuess;
+    } else {
+      if (currentGuess > enteredNumber) {
+        return Alert.alert('WE KNOW YOU LYING');
+      }
+      minBoundary = currentGuess + 1;
+    }
+    const newRandomNumber = generateRandomNumber(
+      minBoundary,
+      maxBoundary,
+      currentGuess,
+    );
+    setMagiciansGuesses(oldState => [...oldState, currentGuess]);
+    setCurrentGuess(newRandomNumber);
+  };
 
   /**
-   * States
+   * useEffect
    */
-  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+  useEffect(() => {
+    const initialGuess = generateRandomNumber(
+      minBoundary,
+      maxBoundary,
+      enteredNumber,
+    );
+    setCurrentGuess(initialGuess);
+  }, []);
+
+  useEffect(() => {
+    if (currentGuess === enteredNumber) {
+      setMagiciansGuesses(oldState => [...oldState, currentGuess]);
+      setFinishedGame(true);
+      return Alert.alert(
+        'The magician found your number!',
+        'See the stats below!',
+      );
+    }
+  }, [currentGuess]);
 
   return (
     <Container>
@@ -54,19 +106,50 @@ export const GameScreen = () => {
       <Separator height={10} />
       <ContentGuess>
         <NumberContainer>
-          <Text size={22}>{currentGuess}</Text>
+          <Text color={finishedGame ? 'green' : 'black'} size={22}>
+            {currentGuess}
+          </Text>
         </NumberContainer>
       </ContentGuess>
       <Separator height={10} />
       <ButtonsRowContainer>
         <ButtonContainer>
-          <Button label="+" />
+          <Button
+            disabled={finishedGame}
+            onPress={() => handleNextGuess('lower')}
+            label="-"
+          />
         </ButtonContainer>
         <Separator width={10} />
         <ButtonContainer>
-          <Button label="-" />
+          <Button
+            disabled={finishedGame}
+            onPress={() => handleNextGuess('greater')}
+            label="+"
+          />
         </ButtonContainer>
       </ButtonsRowContainer>
+      <Separator height={30} />
+      {finishedGame ? (
+        <>
+          <Text isBold size={20} alignSelf="center">
+            Stats:
+          </Text>
+          <Separator height={10} />
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={magiciansGuesses}
+            renderItem={({item, index}) => (
+              <StatCard
+                index={index}
+                item={item}
+                isLastGuess={index === magiciansGuesses.length - 1}
+                isRightGuess={item === enteredNumber}
+              />
+            )}
+          />
+        </>
+      ) : null}
     </Container>
   );
 };

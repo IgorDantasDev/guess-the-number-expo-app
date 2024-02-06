@@ -1,12 +1,12 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigationProp} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {GameOverScreen} from '~/screens/GameOverScreen';
 import {GameScreen} from '~/screens/GameScreen';
 import {InitialScreen} from '~/screens/InitialScreen';
 
-const {Navigator, Screen} = createStackNavigator();
+const {Navigator, Screen} = createStackNavigator<StackParamList>();
 
 const App = () => {
   return (

@@ -1,3 +1,4 @@
+import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 declare global {
@@ -8,7 +9,4 @@ declare global {
   };
 }
 
-export type StackNavigatorProp = StackNavigationProp<
-  StackParamList,
-  'InitialScreen'
->;
+export type GameScreenRouteProp = RouteProp<StackParamList, 'GameScreen'>;

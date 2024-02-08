@@ -77,7 +77,7 @@ export const GameScreen = () => {
       setMagiciansGuesses(oldState => [...oldState, currentGuess]);
       setCurrentGuess(newRandomNumber);
     },
-    [finishedGame, currentGuess, generateRandomNumber, enteredNumber],
+    [finishedGame, currentGuess, enteredNumber],
   );
 
   const handleStartNewGame = () => {

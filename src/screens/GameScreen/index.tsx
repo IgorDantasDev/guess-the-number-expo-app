@@ -37,6 +37,7 @@ export const GameScreen = () => {
   const [currentGuess, setCurrentGuess] = useState(0);
   const [finishedGame, setFinishedGame] = useState(false);
   const [magiciansGuesses, setMagiciansGuesses] = useState<number[]>([]);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   /**
    * Callbacks
@@ -57,14 +58,20 @@ export const GameScreen = () => {
   const handleNextGuess = useCallback(
     (direction: Direction) => {
       if (finishedGame) return;
-
+      setButtonsDisabled(true);
       if (direction === 'lower') {
         if (currentGuess < enteredNumber) {
+          setTimeout(() => {
+            setButtonsDisabled(false);
+          }, 550);
           return Alert.alert('WE KNOW YOU LYING');
         }
         maxBoundary = currentGuess;
       } else {
         if (currentGuess > enteredNumber) {
+          setTimeout(() => {
+            setButtonsDisabled(false);
+          }, 550);
           return Alert.alert('WE KNOW YOU LYING');
         }
         minBoundary = currentGuess + 1;
@@ -76,8 +83,17 @@ export const GameScreen = () => {
       });
       setMagiciansGuesses(oldState => [...oldState, currentGuess]);
       setCurrentGuess(newRandomNumber);
+      setTimeout(() => {
+        setButtonsDisabled(false);
+      }, 550);
     },
-    [finishedGame, currentGuess, enteredNumber],
+    [
+      finishedGame,
+      currentGuess,
+      generateRandomNumber,
+      enteredNumber,
+      setButtonsDisabled,
+    ],
   );
 
   const handleStartNewGame = () => {
@@ -128,7 +144,7 @@ export const GameScreen = () => {
         <ButtonContainer>
           <Button
             bgColor={INPUT_CONTAINER}
-            disabled={finishedGame}
+            disabled={finishedGame || buttonsDisabled}
             onPress={() => handleNextGuess('lower')}
             label="-"
             textColor="#fff"
@@ -138,7 +154,7 @@ export const GameScreen = () => {
         <ButtonContainer>
           <Button
             bgColor={INPUT_CONTAINER}
-            disabled={finishedGame}
+            disabled={finishedGame || buttonsDisabled}
             onPress={() => handleNextGuess('greater')}
             label="+"
             textColor="#fff"

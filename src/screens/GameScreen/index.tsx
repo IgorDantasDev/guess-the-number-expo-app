@@ -87,13 +87,7 @@ export const GameScreen = () => {
         setButtonsDisabled(false);
       }, 550);
     },
-    [
-      finishedGame,
-      currentGuess,
-      generateRandomNumber,
-      enteredNumber,
-      setButtonsDisabled,
-    ],
+    [finishedGame, currentGuess, generateRandomNumber, enteredNumber],
   );
 
   const handleStartNewGame = () => {
@@ -117,10 +111,10 @@ export const GameScreen = () => {
     if (currentGuess === enteredNumber) {
       setMagiciansGuesses(oldState => [...oldState, currentGuess]);
       setFinishedGame(true);
-      return Alert.alert(
-        'The magician found your number!',
-        'See the stats below!',
-      );
+      // return Alert.alert(
+      //   'The magician found your number!',
+      //   'See the stats below!',
+      // );
     }
   }, [currentGuess]);
 

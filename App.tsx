@@ -1,21 +1,23 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-export default function App() {
+import {GameScreen} from '~/screens/GameScreen';
+import {InitialScreen} from '~/screens/InitialScreen';
+
+const {Navigator, Screen} = createStackNavigator<StackParamList>();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Olá, Mundo!!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Navigator
+        screenOptions={{headerShown: false}}
+        initialRouteName="InitialScreen">
+        <Screen name="InitialScreen" component={InitialScreen} />
+        <Screen name="GameScreen" component={GameScreen} />
+      </Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;

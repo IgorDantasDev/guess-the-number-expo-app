@@ -156,7 +156,7 @@ export const GameScreen = () => {
       <Separator height={30} />
       {finishedGame ? (
         <>
-          {/* <ToastMessage /> */}
+          <ToastMessage />
           <Text isBold size={20} alignSelf="center">
             Stats:
           </Text>

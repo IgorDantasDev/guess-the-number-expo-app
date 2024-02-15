@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 
 import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
 import {Alert, FlatList} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import {
   ButtonContainer,
@@ -18,6 +19,7 @@ import {Button} from '~/components/Button';
 import {Separator} from '~/components/Separator';
 import {StatCard} from '~/components/StatCard';
 import {INPUT_CONTAINER} from '~/constants/colors';
+import {ToastMessage} from './localComponent/ToastMessage';
 
 let minBoundary = 1;
 let maxBoundary = 100;
@@ -64,7 +66,7 @@ export const GameScreen = () => {
           setTimeout(() => {
             setButtonsDisabled(false);
           }, 550);
-          return Alert.alert('WE KNOW YOU LYING');
+          return Alert.alert('I KNOW YOU LYING');
         }
         maxBoundary = currentGuess;
       } else {
@@ -72,7 +74,7 @@ export const GameScreen = () => {
           setTimeout(() => {
             setButtonsDisabled(false);
           }, 550);
-          return Alert.alert('WE KNOW YOU LYING');
+          return Alert.alert('I KNOW YOU LYING');
         }
         minBoundary = currentGuess + 1;
       }
@@ -111,10 +113,6 @@ export const GameScreen = () => {
     if (currentGuess === enteredNumber) {
       setMagiciansGuesses(oldState => [...oldState, currentGuess]);
       setFinishedGame(true);
-      // return Alert.alert(
-      //   'The magician found your number!',
-      //   'See the stats below!',
-      // );
     }
   }, [currentGuess]);
 
@@ -158,6 +156,7 @@ export const GameScreen = () => {
       <Separator height={30} />
       {finishedGame ? (
         <>
+          {/* <ToastMessage /> */}
           <Text isBold size={20} alignSelf="center">
             Stats:
           </Text>
